@@ -34,7 +34,7 @@ class ActionRunner
             throw new NotMatchedRouteActionException('expect callable or controller array');
         }
 
-        $response = call_user_func($actionCallback, $params);
+        $response = call_user_func_array($actionCallback, $params);
 
         if (!$response instanceof ResponseInterface) {
             throw new NotValidActionResultException('expect ResponseInterface object');

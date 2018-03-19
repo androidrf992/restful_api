@@ -13,8 +13,8 @@ class SimpleController
         return new JsonResponse(['status' => 'ok', 'response' =>'success']);
     }
 
-    public function paramAction($user_id):ResponseInterface
+    public function paramAction($user_id, $partner_id):ResponseInterface
     {
-        return new Response($user_id);
+        return new Response("{$user_id} - {$partner_id}");
     }
 }
