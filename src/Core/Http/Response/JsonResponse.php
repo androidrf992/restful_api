@@ -6,7 +6,7 @@ use Core\Http\Response\Exceptions\JsonResponseNotValidBodyException;
 
 class JsonResponse extends Response
 {
-    public function __construct($body, int $statusCode = 200)
+    public function __construct($body, int $statusCode = ResponseCode::OK)
     {
         $normalizeBody = json_encode($body);
         if (!$normalizeBody) {

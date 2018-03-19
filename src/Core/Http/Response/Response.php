@@ -10,7 +10,7 @@ class Response implements ResponseInterface
 
     protected $headers = [];
 
-    public function __construct($body, int $statusCode = 200)
+    public function __construct($body, int $statusCode = ResponseCode::NOT_FOUND)
     {
         $this->body = $body;
         $this->statusCode = $statusCode;

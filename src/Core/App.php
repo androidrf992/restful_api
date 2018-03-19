@@ -3,24 +3,25 @@
 namespace Core;
 
 use Core\Http\Request\Request;
-use Core\Http\Response\ResponseInterface;
-use Core\Route\Router;
+use Core\Route\RouteHandler;
 use Core\Sender\SenderInterface;
 
 class App
 {
     private $request;
 
-    private $router;
+    private $routeHandler;
 
-    public function __construct(Request $request, Router $router)
+    public function __construct(Request $request, RouteHandler $routeHandler)
     {
         $this->request = $request;
-        $this->router = $router;
+        $this->routeHandler = $routeHandler;
     }
 
-    public function run(SenderInterface $sender, ResponseInterface $response)
+    public function run(SenderInterface $sender)
     {
-        $sender->send($response);
+        $action = $this->routeHandler->handle($this->request);
+
+        $sender->send($action());
     }
 }

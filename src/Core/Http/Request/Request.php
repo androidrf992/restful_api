@@ -2,7 +2,7 @@
 
 namespace Core\Http\Request;
 
-class Request
+class Request implements RequestInterface
 {
     private $getParams;
 
@@ -26,5 +26,15 @@ class Request
     public static function initByGlobals(): self
     {
         return new Request($_GET, $_POST, $_SERVER, $_SESSION, $_COOKIE);
+    }
+
+    public function getUri(): string
+    {
+        return $this->serverParams['REQUEST_URI'] ?? null;
+    }
+
+    public function getMethod(): string
+    {
+        return $this->serverParams['REQUEST_METHOD'] ?? null;
     }
 }
