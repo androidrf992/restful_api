@@ -8,7 +8,9 @@ interface ResponseInterface
 
     public function getBody();
 
-    public function getHeaders(): iterable;
+    public function getHeaders(): array;
 
     public function isHaveHeaders(): bool;
+
+    public function addHeader(string $key, string $val);
 }

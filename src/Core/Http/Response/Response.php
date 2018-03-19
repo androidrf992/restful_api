@@ -26,7 +26,7 @@ class Response implements ResponseInterface
         return $this->statusCode;
     }
 
-    public function getHeaders(): iterable
+    public function getHeaders(): array
     {
         return $this->headers;
     }
@@ -34,5 +34,10 @@ class Response implements ResponseInterface
     public function isHaveHeaders(): bool
     {
         return !empty($this->headers);
+    }
+
+    public function addHeader(string $name, string $value)
+    {
+        $this->headers[$name] = $value;
     }
 }
