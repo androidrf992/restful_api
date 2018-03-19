@@ -10,6 +10,11 @@ $collection->post('/', function () {
     return new \Core\Http\Response\JsonResponse(['status' => 'post']);
 });
 
+$collection->post('/controller', [
+    'controller' => \App\Controller\SimpleController::class,
+    'action' => 'indexAction'
+]);
+
 $collection->delete('/html', function () {
     return new \Core\Http\Response\Response('delete html');
 });

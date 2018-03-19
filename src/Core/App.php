@@ -3,6 +3,9 @@
 namespace Core;
 
 use Core\Http\Request\Request;
+use Core\Http\Response\JsonResponse;
+use Core\Http\Response\ResponseCode;
+use Core\Route\Exceptions\RouteNotMatchedException;
 use Core\Route\RouteHandler;
 use Core\Sender\SenderInterface;
 
@@ -18,10 +21,22 @@ class App
         $this->routeHandler = $routeHandler;
     }
 
-    public function run(SenderInterface $sender)
+    public function run(SenderInterface $sender, ActionRunner $runner)
     {
-        $action = $this->routeHandler->handle($this->request);
-
-        $sender->send($action());
+        try {
+            $action = $this->routeHandler->handle($this->request);
+            $response = $runner->execute($action);
+        } catch (RouteNotMatchedException $e) {
+            $response =  new JsonResponse(
+                ['status' => 'error', 'message' => 'method not allowed'],
+                ResponseCode::METHOD_NOT_ALLOWED
+            );
+        } catch (\Exception $e) {
+            $response =  new JsonResponse(
+                ['status' => 'error', 'message' => 'server error'],
+                ResponseCode::INTERNAL_SERVER_ERROR
+            );
+        }
+        $sender->send($response);
     }
 }

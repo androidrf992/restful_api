@@ -9,6 +9,6 @@ $request = \Core\Http\Request\Request::initByGlobals();
 $routeHandler = new \Core\Route\RouteHandler($routeCollection);
 
 $app = new \Core\App($request, $routeHandler);
-$app->run(new \Core\Sender\SimpleHtmlSender());
+$app->run(new \Core\Sender\SimpleHtmlSender(), new \Core\ActionRunner());
 
 
