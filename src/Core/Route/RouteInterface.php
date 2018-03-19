@@ -9,4 +9,6 @@ interface RouteInterface
     public function match(RequestInterface $request): bool;
 
     public function getAction();
+
+    public function getParams(): array;
 }

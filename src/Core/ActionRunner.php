@@ -2,37 +2,39 @@
 
 namespace Core;
 
-use Core\Exceptions\ActionControllerNotExistException;
-use Core\Exceptions\ActionMethodNotExistException;
+use Core\Exceptions\ActionClassOrMethodNotExistException;
 use Core\Exceptions\ActionMethodNotPublicException;
 use Core\Exceptions\NotMatchedRouteActionException;
 use Core\Exceptions\NotValidActionResultException;
 use Core\Http\Response\ResponseInterface;
+use Core\Route\RouteHandlerResponse;
 
 class ActionRunner
 {
-    public function execute($action): ResponseInterface
+    public function execute(RouteHandlerResponse $handlerResponse): ResponseInterface
     {
+        $action = $handlerResponse->getAction();
+        $params = $handlerResponse->getParams();
+
         if (is_callable($action)) {
-            $response = $action();
+            $actionCallback = $action;
         } elseif (is_array($action) && isset($action['controller'], $action['action'])) {
-            if (!class_exists($action['controller'])) {
-                throw new ActionControllerNotExistException("Controller {$action['controller']} not exist");
-            }
-            $class = new $action['controller']();
+            $className = $action['controller'];
             $classAction = $action['action'];
-            if (!method_exists($class, $classAction)) {
-                throw new ActionMethodNotExistException("Method {$classAction} not exist");
+            try {
+                $reflection = new \ReflectionMethod($className, $classAction);
+            } catch (\ReflectionException $e) {
+                throw new ActionClassOrMethodNotExistException($e->getMessage());
             }
-            $reflection = new \ReflectionMethod($class, $classAction);
             if (!$reflection->isPublic()) {
                 throw new ActionMethodNotPublicException('given method not public');
             }
-
-            $response = $class->$classAction();
+            $actionCallback = [$className, $classAction];
         } else {
             throw new NotMatchedRouteActionException('expect callable or controller array');
         }
+
+        $response = call_user_func($actionCallback, $params);
 
         if (!$response instanceof ResponseInterface) {
             throw new NotValidActionResultException('expect ResponseInterface object');

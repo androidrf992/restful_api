@@ -24,8 +24,8 @@ class App
     public function run(SenderInterface $sender, ActionRunner $runner)
     {
         try {
-            $action = $this->routeHandler->handle($this->request);
-            $response = $runner->execute($action);
+            $handlerResponse = $this->routeHandler->handle($this->request);
+            $response = $runner->execute($handlerResponse);
         } catch (RouteNotMatchedException $e) {
             $response =  new JsonResponse(
                 ['status' => 'error', 'message' => 'method not allowed'],

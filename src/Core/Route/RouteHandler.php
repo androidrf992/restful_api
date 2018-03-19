@@ -19,7 +19,10 @@ class RouteHandler
         /** @var Route $route */
         foreach ($this->routeCollection->getRoutes()  as $route) {
             if ($route->match($request)) {
-                return $route->getAction();
+                return new RouteHandlerResponse(
+                    $route->getAction(),
+                    $route->getParams()
+                );
             }
         }
 
