@@ -3,8 +3,9 @@
 namespace Core;
 
 use Core\Http\Request\Request;
-use Core\Http\Response\Response;
+use Core\Http\Response\ResponseInterface;
 use Core\Route\Router;
+use Core\Sender\SenderInterface;
 
 class App
 {
@@ -18,7 +19,7 @@ class App
         $this->router = $router;
     }
 
-    public function run(ResponseSender $sender, Response $response)
+    public function run(SenderInterface $sender, ResponseInterface $response)
     {
         $sender->send($response);
     }
