@@ -5,6 +5,7 @@ namespace Core;
 use Core\Http\Request\Request;
 use Core\Http\Response\JsonResponse;
 use Core\Http\Response\ResponseCode;
+use Core\Pipeline\Pipeline;
 use Core\Route\Exceptions\RouteNotMatchedException;
 use Core\Route\RouteHandler;
 use Core\Sender\SenderInterface;
@@ -25,7 +26,7 @@ class App
     {
         try {
             $route = $this->routeHandler->handle($this->request);
-            $response = $runner->execute($route);
+            $response = $runner->execute($route, new Pipeline());
         } catch (RouteNotMatchedException $e) {
             $response =  new JsonResponse(
                 ['status' => 'error', 'message' => 'method not allowed'],
