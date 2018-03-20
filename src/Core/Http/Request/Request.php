@@ -37,6 +37,16 @@ class Request implements RequestInterface
         return $this->serverParams['REQUEST_URI'] ?? null;
     }
 
+    public function getPath(): string
+    {
+        $rawUri = $this->getUri();
+        $subEndIndex = strpos($rawUri, '?');
+
+        return $subEndIndex
+            ? substr($rawUri, 0, strpos($rawUri, '?'))
+            : $rawUri;
+    }
+
     public function getMethod(): string
     {
         return $this->serverParams['REQUEST_METHOD'] ?? null;

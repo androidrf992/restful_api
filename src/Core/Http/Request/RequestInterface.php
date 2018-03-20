@@ -14,6 +14,8 @@ interface RequestInterface
 
     public function getUri(): string;
 
+    public function getPath(): string;
+
     public function getMethod(): string;
 
     public function getQueryParam($param, $default = null);

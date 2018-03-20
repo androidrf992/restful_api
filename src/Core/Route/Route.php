@@ -34,7 +34,7 @@ class Route implements RouteInterface
         if ($this->method !== $request ->getMethod()) {
             return false;
         }
-        if (!preg_match('/^' . $this->prefix . $this->pattern . '$/', $request->getUri(), $matches)) {
+        if (!preg_match('/^' . $this->prefix . $this->pattern . '$/', $request->getPath(), $matches)) {
             return false;
         }
         if (!empty($this->keyReplaceMatcher)) {

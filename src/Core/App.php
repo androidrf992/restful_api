@@ -17,14 +17,14 @@ class App
 
     private $routeHandler;
 
-    private $container;
+    private static $container;
 
     public function __construct(Request $request, RouteHandler $routeHandler, AppContainer $container)
     {
         $container->set(RequestInterface::class, $request);
         $this->request = $request;
         $this->routeHandler = $routeHandler;
-        $this->container = $container;
+        self::$container = $container;
     }
 
     public function run(SenderInterface $sender, ActionRunner $runner)
@@ -33,13 +33,18 @@ class App
             $route = $this->routeHandler->handle($this->request);
             $response = $runner->execute(
                 $route,
-                $this->container->get(PipelineInterface::class)
+                App::container()->get(PipelineInterface::class)
             );
         } catch (RouteNotMatchedException $e) {
-            $response = $this->container->get('response.method_not_allowed');
+            $response = App::container()->get('response.method_not_allowed');
         } catch (\Exception $e) {
-            $response = $this->container->get('response.general_error');
+            $response = App::container()->get('response.general_error');
         }
         $sender->send($response);
+    }
+
+    public static function container(): AppContainer
+    {
+        return self::$container;
     }
 }
