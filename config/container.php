@@ -1,5 +1,6 @@
 <?php
 
+use App\Service\UserService;
 use Core\ActionRunner\ActionRunner;
 use Core\Container\AppContainer;
 use Core\Http\Response\JsonResponse;
@@ -36,6 +37,12 @@ $container->set('response.method_not_allowed', function ($c) {
         ['status' => 'error', 'message' => 'method not allowed'],
         ResponseCode::METHOD_NOT_ALLOWED
     );
+});
+
+// custom bind
+
+$container->set(UserService::class, function ($c) {
+    return new UserService();
 });
 
 return $container;

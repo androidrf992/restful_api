@@ -1,7 +1,7 @@
 <?php
 
-use App\Controller\AuthController;
 use App\Controller\UserController;
+use App\Middleware\AuthMiddleware;
 use Core\Route\RouteCollection;
 
 $collection = new RouteCollection();
@@ -30,6 +30,6 @@ $collection->group(function (RouteCollection $collection) {
     ], ['userId' => 'd+']);
 
     return $collection;
-})->withPrefix('/api')->withMiddlewares([AuthController::class]);
+})->withPrefix('/api')->withMiddlewares([AuthMiddleware::class]);
 
 return $collection;

@@ -2,14 +2,21 @@
 
 namespace App\Controller;
 
+use App\Helper\JsonResponseTrait;
+use App\Service\UserService;
+use Core\App;
 use Core\Http\Response\JsonResponse;
 use Core\Http\Response\ResponseInterface;
 
 class UserController
 {
+    use JsonResponseTrait;
+
     public function listAction(): ResponseInterface
     {
-        return new JsonResponse(['list']);
+        /** @var UserService $service */
+        $service = App::container()->get(UserService::class);
+        return $this->successJsonResponse($service->getAllUsers());
     }
 
     public function getAction($userId): ResponseInterface

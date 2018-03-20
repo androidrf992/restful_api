@@ -30,7 +30,7 @@ class ActionRunner
             if (!$reflection->isPublic()) {
                 throw new ActionMethodNotPublicException('given method not public');
             }
-            $actionCallback = [$className, $classAction];
+            $actionCallback = [new $className(), $classAction];
         } else {
             throw new NotMatchedRouteActionException('expect callable or controller array');
         }
