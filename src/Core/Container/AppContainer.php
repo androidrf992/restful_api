@@ -6,9 +6,9 @@ class AppContainer
 {
     private $storage = [];
 
-    public function set(string $name, \Closure $closure)
+    public function set(string $name, $value)
     {
-        $this->storage[$name] = $closure;
+        $this->storage[$name] = $value;
     }
 
     public function get(string $name)
@@ -17,6 +17,10 @@ class AppContainer
             throw new ServiceNotFoundException('Service not found in container');
         }
 
-        return $this->storage[$name]($this);
+        if ($this->storage[$name] instanceof \Closure) {
+            return $this->storage[$name]($this);
+        }
+
+        return $this->storage[$name];
     }
 }

@@ -4,8 +4,7 @@ namespace Core;
 
 use Core\Container\AppContainer;
 use Core\Http\Request\Request;
-use Core\Http\Response\JsonResponse;
-use Core\Http\Response\ResponseCode;
+use Core\Http\Request\RequestInterface;
 use Core\Pipeline\PipelineInterface;
 use Core\Route\Exceptions\RouteNotMatchedException;
 use Core\Route\RouteHandler;
@@ -22,6 +21,7 @@ class App
 
     public function __construct(Request $request, RouteHandler $routeHandler, AppContainer $container)
     {
+        $container->set(RequestInterface::class, $request);
         $this->request = $request;
         $this->routeHandler = $routeHandler;
         $this->container = $container;
@@ -36,15 +36,9 @@ class App
                 $this->container->get(PipelineInterface::class)
             );
         } catch (RouteNotMatchedException $e) {
-            $response =  new JsonResponse(
-                ['status' => 'error', 'message' => 'method not allowed'],
-                ResponseCode::METHOD_NOT_ALLOWED
-            );
+            $response = $this->container->get('response.method_not_allowed');
         } catch (\Exception $e) {
-            $response =  new JsonResponse(
-                ['status' => 'error', 'message' => 'server error'],
-                ResponseCode::INTERNAL_SERVER_ERROR
-            );
+            $response = $this->container->get('response.general_error');
         }
         $sender->send($response);
     }
