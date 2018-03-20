@@ -1,11 +1,11 @@
 <?php
 
-namespace Core;
+namespace Core\ActionRunner;
 
-use Core\Exceptions\ActionClassOrMethodNotExistException;
-use Core\Exceptions\ActionMethodNotPublicException;
-use Core\Exceptions\NotMatchedRouteActionException;
-use Core\Exceptions\NotValidActionResultException;
+use Core\ActionRunner\Exceptions\ActionClassOrMethodNotExistException;
+use Core\ActionRunner\Exceptions\ActionMethodNotPublicException;
+use Core\ActionRunner\Exceptions\NotMatchedRouteActionException;
+use Core\ActionRunner\Exceptions\NotValidActionResultException;
 use Core\Http\Response\ResponseInterface;
 use Core\Pipeline\PipelineInterface;
 use Core\Route\RouteInterface;
@@ -37,7 +37,7 @@ class ActionRunner
 
         if ($route->hasMiddlewares()) {
             foreach ($route->getMiddlewares() as $middleware) {
-                $pipeline->add($middleware);
+                $pipeline->add(new $middleware);
             }
         }
 

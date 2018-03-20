@@ -9,6 +9,7 @@ use Core\Pipeline\Pipeline;
 use Core\Route\Exceptions\RouteNotMatchedException;
 use Core\Route\RouteHandler;
 use Core\Sender\SenderInterface;
+use Core\ActionRunner\ActionRunner;
 
 class App
 {

@@ -8,24 +8,32 @@ class RouteCollection implements RouteCollectionInterface
 {
     private $routeList = [];
 
-    public function get(string $pattern, $action, array $paramsRule = [])
+    public function get(string $pattern, $action, array $patternArgs = []): RouteInterface
     {
-        $this->routeList[] = new Route(RequestInterface::METHOD_GET, [$pattern, $paramsRule], $action);
+        return $this->addRoute(RequestInterface::METHOD_GET, $pattern, $action, $patternArgs);
     }
 
-    public function post(string $pattern, $action, array $paramsRule = [])
+    public function post(string $pattern, $action, array $patternArgs = []): RouteInterface
     {
-        $this->routeList[] = new Route(RequestInterface::METHOD_POST, [$pattern, $paramsRule], $action);
+        return $this->addRoute(RequestInterface::METHOD_POST, $pattern, $action, $patternArgs);
     }
 
-    public function put(string $pattern, $action, array $paramsRule = [])
+    public function put(string $pattern, $action, array $patternArgs = []): RouteInterface
     {
-        $this->routeList[] = new Route(RequestInterface::METHOD_PUT, [$pattern, $paramsRule], $action);
+        return $this->addRoute(RequestInterface::METHOD_PUT, $pattern, $action, $patternArgs);
     }
 
-    public function delete(string $pattern, $action, array $paramsRule = [])
+    public function delete(string $pattern, $action, array $patternArgs = []): RouteInterface
     {
-        $this->routeList[] = new Route(RequestInterface::METHOD_DELETE, [$pattern, $paramsRule], $action);
+        return $this->addRoute(RequestInterface::METHOD_DELETE, $pattern, $action, $patternArgs);
+    }
+
+    private function addRoute(string $method, string $pattern, $action, $patternArgs): RouteInterface
+    {
+        $route = new Route($method, [$pattern, $patternArgs], $action);
+        $this->routeList[] = $route;
+
+        return $route;
     }
 
     public function getRoutes(): array

@@ -4,7 +4,7 @@ $collection = new \Core\Route\RouteCollection();
 
 $collection->get('/', function () {
     return new \Core\Http\Response\JsonResponse(['status' => 'get']);
-});
+})->withMiddleware([\App\Middleware\EchoMiddleware::class]);
 
 $collection->post('/', function () {
     return new \Core\Http\Response\JsonResponse(['status' => 'post']);

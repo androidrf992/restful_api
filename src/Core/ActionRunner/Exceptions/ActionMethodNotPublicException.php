@@ -1,6 +1,6 @@
 <?php
 
-namespace Core\Exceptions;
+namespace Core\ActionRunner\Exceptions;
 
 class ActionMethodNotPublicException extends \LogicException
 {
