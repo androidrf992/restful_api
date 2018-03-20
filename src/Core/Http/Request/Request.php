@@ -8,6 +8,8 @@ class Request implements RequestInterface
 
     private $postParams;
 
+    private $sanitizeParams = [];
+
     private $serverParams;
 
     private $sessionParams;
@@ -36,5 +38,19 @@ class Request implements RequestInterface
     public function getMethod(): string
     {
         return $this->serverParams['REQUEST_METHOD'] ?? null;
+    }
+
+    public function getQueryParam($param, $default = null)
+    {
+        if (isset($this->sanitizeParams[$param])) {
+            return $this->sanitizeParams[$param];
+        }
+        if ($this->getMethod() === RequestInterface::METHOD_GET) {
+            $this->sanitizeParams[$param] = strip_tags($_GET[$param]) ?? $default;
+        } else {
+            $this->sanitizeParams[$param] = strip_tags($_POST[$param]) ?? $default;
+        }
+
+        return $this->sanitizeParams[$param];
     }
 }
