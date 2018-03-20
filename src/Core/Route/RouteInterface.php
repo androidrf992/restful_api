@@ -8,7 +8,11 @@ interface RouteInterface
 {
     public function match(RequestInterface $request): bool;
 
-    public function getAction();
+    public function getAction(): RouteActionInterface;
 
-    public function getParams(): array;
+    public function withMiddleware(array $middlewares);
+
+    public function hasMiddlewares(): bool;
+
+    public function getMiddlewares(): array;
 }

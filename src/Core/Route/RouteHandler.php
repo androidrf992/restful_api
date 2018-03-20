@@ -14,15 +14,12 @@ class RouteHandler
         $this->routeCollection = $routeCollection;
     }
 
-    public function handle(RequestInterface $request)
+    public function handle(RequestInterface $request): RouteInterface
     {
         /** @var Route $route */
         foreach ($this->routeCollection->getRoutes()  as $route) {
             if ($route->match($request)) {
-                return new RouteHandlerResponse(
-                    $route->getAction(),
-                    $route->getParams()
-                );
+                return $route;
             }
         }
 
