@@ -28,16 +28,33 @@ class RouteCollection implements RouteCollectionInterface
         return $this->addRoute(RequestInterface::METHOD_DELETE, $pattern, $action, $patternArgs);
     }
 
+    public function group(\Closure $closure): RouteCollectionGroup
+    {
+        $routeCollectionGroup = new RouteCollectionGroup($closure);
+        $this->routeList[] = $routeCollectionGroup;
+
+        return $routeCollectionGroup;
+    }
+
+    public function getRoutes(): array
+    {
+        $routes = [];
+        foreach ($this->routeList as $item) {
+            if ($item instanceof RouteCollectionGroup) {
+                $routes = array_merge($routes, $item->getRoutes());
+            } else {
+                $routes[] = $item;
+            }
+        }
+
+        return $routes;
+    }
+
     private function addRoute(string $method, string $pattern, $action, $patternArgs): RouteInterface
     {
         $route = new Route($method, [$pattern, $patternArgs], $action);
         $this->routeList[] = $route;
 
         return $route;
-    }
-
-    public function getRoutes(): array
-    {
-        return $this->routeList;
     }
 }

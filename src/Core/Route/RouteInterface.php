@@ -10,7 +10,9 @@ interface RouteInterface
 
     public function getAction(): RouteActionInterface;
 
-    public function withMiddleware(array $middlewares);
+    public function setMiddleware(array $middlewares);
+
+    public function setPrefix($prefix);
 
     public function hasMiddlewares(): bool;
 

@@ -12,6 +12,8 @@ class Route implements RouteInterface
 
     protected $action;
 
+    protected $prefix = '';
+
     private $actionArguments = [];
 
     protected $method;
@@ -32,7 +34,7 @@ class Route implements RouteInterface
         if ($this->method !== $request ->getMethod()) {
             return false;
         }
-        if (!preg_match('/^' . $this->pattern . '$/', $request->getUri(), $matches)) {
+        if (!preg_match('/^' . $this->prefix . $this->pattern . '$/', $request->getUri(), $matches)) {
             return false;
         }
         if (!empty($this->keyReplaceMatcher)) {
@@ -44,7 +46,12 @@ class Route implements RouteInterface
         return true;
     }
 
-    public function withMiddleware(array $middlewares)
+    public function setPrefix($prefix)
+    {
+        $this->prefix = str_replace('/', '\/', $prefix);
+    }
+
+    public function setMiddleware(array $middlewares)
     {
         $this->middlewares = $middlewares;
     }
