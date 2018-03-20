@@ -23,7 +23,7 @@ class Pipeline implements PipelineInterface
         }
 
         return $current(function () use ($action) {
-           return $this->process($action);
+            return $this->process($action);
         });
     }
 }

@@ -81,7 +81,7 @@ class Route implements RouteInterface
             throw new RoutePatternNotValidException('Route given pattern not valid');
         }
 
-        if(count($pattern) !== 2) {
+        if (count($pattern) !== 2) {
             throw new RoutePatternNotValidException('Route given array pattern values not valid');
         }
 

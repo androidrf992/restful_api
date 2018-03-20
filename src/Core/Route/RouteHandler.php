@@ -17,7 +17,7 @@ class RouteHandler
     public function handle(RequestInterface $request): RouteInterface
     {
         /** @var Route $route */
-        foreach ($this->routeCollection->getRoutes()  as $route) {
+        foreach ($this->routeCollection->getRoutes() as $route) {
             if ($route->match($request)) {
                 return $route;
             }

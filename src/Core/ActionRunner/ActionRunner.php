@@ -41,7 +41,7 @@ class ActionRunner
             }
         }
 
-        $actionCallback = function () use ($actionCallback, $arguments){
+        $actionCallback = function () use ($actionCallback, $arguments) {
             return \call_user_func_array($actionCallback, $arguments);
         };
         $response = $pipeline->process($actionCallback);

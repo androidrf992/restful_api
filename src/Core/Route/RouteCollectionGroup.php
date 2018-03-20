@@ -39,7 +39,6 @@ class RouteCollectionGroup
         foreach ($routes as &$route) {
             $route->setMiddleware($this->middlewares);
             $route->setPrefix($this->prefix);
-
         }
 
         return $routes;
