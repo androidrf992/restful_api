@@ -7,6 +7,7 @@ use Core\Route\RouteHandler;
 use Core\Sender\SenderInterface;
 
 require_once __DIR__ . '/../src/autoload.php';
+define('BASE_PATH', __DIR__ . '/../');
 
 $routeCollection = require __DIR__ . '/../config/routes.php';
 $container = require __DIR__ . '/../config/container.php';

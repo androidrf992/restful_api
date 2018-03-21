@@ -2,9 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Helper\JsonResponseTrait;
 use App\Service\UserService;
 use Core\App;
+use Core\Container\ServiceNotFoundException;
 use Core\Http\Response\JsonResponse;
 use Core\Http\Response\ResponseInterface;
 
@@ -12,6 +14,11 @@ class UserController
 {
     use JsonResponseTrait;
 
+    /**
+     * @throws ServiceNotFoundException
+     *
+     * @return ResponseInterface
+     */
     public function listAction(): ResponseInterface
     {
         /** @var UserService $service */
@@ -26,7 +33,15 @@ class UserController
 
     public function createAction(): ResponseInterface
     {
-        return new JsonResponse(['create']);
+        try {
+            /** @var UserService $service */
+            $service = App::container()->get(UserService::class);
+            $user = new User('dasda', User::GENDER_MALE, 10, 'dasda');
+            $service->createUser($user);
+            return $this->successJsonResponse('created');
+        } catch (\Exception $e) {
+            return $this->errorJsonResponse($e->getMessage());
+        }
     }
 
     public function updateAction($userId): ResponseInterface

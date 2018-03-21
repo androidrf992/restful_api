@@ -1,5 +1,7 @@
 <?php
 
+use App\Repository\UserJsonFileRepository;
+use App\Repository\UserRepository;
 use App\Service\UserService;
 use Core\ActionRunner\ActionRunner;
 use Core\Container\AppContainer;
@@ -42,7 +44,11 @@ $container->set('response.method_not_allowed', function ($c) {
 // custom bind
 
 $container->set(UserService::class, function ($c) {
-    return new UserService();
+    return new UserService($c->get(UserRepository::class));
+});
+
+$container->set(UserRepository::class, function ($c) {
+    return new UserJsonFileRepository(BASE_PATH . '/data/user.json');
 });
 
 return $container;

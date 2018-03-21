@@ -111,8 +111,19 @@ class User
     /**
      * @return int
      */
-    public function getId(): int
+    public function getId()
     {
         return $this->id;
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'id' => $this->getId(),
+            'name' => $this->getName(),
+            'gender' => $this->getGender(),
+            'age' => $this->getAge(),
+            'address' => $this->getAddress(),
+        ];
     }
 }

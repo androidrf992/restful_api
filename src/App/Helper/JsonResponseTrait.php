@@ -14,6 +14,6 @@ trait JsonResponseTrait
 
     public function errorJsonResponse($message): ResponseInterface
     {
-        return new JsonResponse(['status' => 'error', 'response' => $message]);
+        return new JsonResponse(['status' => 'error', 'message' => $message]);
     }
 }
