@@ -33,4 +33,9 @@ class UserService
     {
         $this->repository->remove($user);
     }
+
+    public function saveUser(User $user)
+    {
+        $this->repository->save($user);
+    }
 }

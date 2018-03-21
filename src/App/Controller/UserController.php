@@ -4,11 +4,9 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\UserForm;
-use App\Helper\Hydrator;
 use App\Helper\JsonResponseTrait;
 use App\Service\UserService;
 use Core\App;
-use Core\Form\AbstractForm;
 use Core\Http\Request\RequestInterface;
 use Core\Http\Response\JsonResponse;
 use Core\Http\Response\ResponseInterface;
@@ -79,7 +77,26 @@ class UserController
 
     public function updateAction($userId): ResponseInterface
     {
-        return new JsonResponse(['updateAction']);
+        try {
+            /** @var UserService $service */
+            $service = App::container()->get(UserService::class);
+            /** @var RequestInterface $request */
+            $request = App::container()->get(RequestInterface::class);
+            $form = new UserForm();
+            if (!$form->validate($request)) {
+                return $this->errorJsonResponse($form->getError());
+            }
+            $user = $service->getUser($userId);
+            $user->setAddress($request->getQueryParam('address'));
+            $user->setName($request->getQueryParam('name'));
+            $user->setGender($request->getQueryParam('gender'));
+            $user->setAge($request->getQueryParam('age'));
+            $service->saveUser($user);
+
+            return $this->successJsonResponse('created');
+        } catch (\Exception $e) {
+            return $this->errorJsonResponse($e->getMessage());
+        }
     }
 
     public function deleteAction($userId): ResponseInterface

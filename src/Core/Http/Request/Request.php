@@ -10,6 +10,8 @@ class Request implements RequestInterface
 
     private $postParams;
 
+    private $putParams;
+
     private $serverParams;
 
     private $session;
@@ -20,6 +22,8 @@ class Request implements RequestInterface
     {
         $this->getParams = $this->sanitizeParams($get);
         $this->postParams = $this->sanitizeParams($post);
+        parse_str(file_get_contents('php://input'), $putParams);
+        $this->putParams = $this->sanitizeParams($putParams);
         $this->serverParams = $server;
         $this->session = $session;
         $this->cookieParams = $cookie;
@@ -54,6 +58,8 @@ class Request implements RequestInterface
     {
         if ($this->getMethod() === RequestInterface::METHOD_GET) {
             return $this->getParams[$param] ?? $default;
+        } elseif ($this->getMethod() === RequestInterface::METHOD_PUT) {
+            return $this->putParams[$param] ?? $default;
         } else {
             return $this->postParams[$param] ?? $default;
         }
@@ -63,6 +69,8 @@ class Request implements RequestInterface
     {
         if ($this->getMethod() === RequestInterface::METHOD_GET) {
             return  $this->getParams;
+        } elseif ($this->getMethod() === RequestInterface::METHOD_PUT) {
+            return $this->putParams;
         } else {
             return  $this->postParams;
         }
