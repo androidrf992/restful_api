@@ -10,8 +10,6 @@ class Request implements RequestInterface
 
     private $postParams;
 
-    private $sanitizeParams = [];
-
     private $serverParams;
 
     private $session;
@@ -20,8 +18,8 @@ class Request implements RequestInterface
 
     public function __construct(array $get, array $post, array $server, Session $session, array $cookie)
     {
-        $this->getParams = $get;
-        $this->postParams = $post;
+        $this->getParams = $this->sanitizeParams($get);
+        $this->postParams = $this->sanitizeParams($post);
         $this->serverParams = $server;
         $this->session = $session;
         $this->cookieParams = $cookie;
@@ -54,15 +52,30 @@ class Request implements RequestInterface
 
     public function getQueryParam($param, $default = null)
     {
-        if (isset($this->sanitizeParams[$param])) {
-            return $this->sanitizeParams[$param];
-        }
         if ($this->getMethod() === RequestInterface::METHOD_GET) {
-            $this->sanitizeParams[$param] = strip_tags($_GET[$param]) ?? $default;
+            return $this->getParams[$param] ?? $default;
         } else {
-            $this->sanitizeParams[$param] = strip_tags($_POST[$param]) ?? $default;
+            return $this->postParams[$param] ?? $default;
         }
+    }
 
-        return $this->sanitizeParams[$param];
+    public function getAllQueryParams()
+    {
+        if ($this->getMethod() === RequestInterface::METHOD_GET) {
+            return  $this->getParams;
+        } else {
+            return  $this->postParams;
+        }
+    }
+
+    private function sanitizeParams($params)
+    {
+        $sanitizedParams = [];
+        if (!empty($params)) {
+            foreach ($params as $key => $param) {
+                $sanitizedParams[$key] = trim(strip_tags($param));
+            }
+        }
+        return $sanitizedParams;
     }
 }

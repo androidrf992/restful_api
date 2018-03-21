@@ -10,6 +10,8 @@ abstract class AbstractForm
 {
     protected $error;
 
+    protected $errorField;
+
     abstract public function getValidatorCollection(): ValidatorCollection;
 
     public function validate(RequestInterface $request):bool
@@ -23,6 +25,7 @@ abstract class AbstractForm
             foreach ($collection->getValidators() as list($param, $validator)) {
                 if (!$validator->validate($request->getQueryParam($param))) {
                     $this->error = $validator->getErrorMessage();
+                    $this->errorField = $param;
                     return false;
                 }
             }
@@ -31,8 +34,8 @@ abstract class AbstractForm
         return true;
     }
 
-    public function getError()
+    public function getError(): string
     {
-        return $this->error;
+        return "{$this->errorField} - " . $this->error;
     }
 }

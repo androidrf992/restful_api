@@ -3,9 +3,13 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\UserForm;
+use App\Helper\Hydrator;
 use App\Helper\JsonResponseTrait;
 use App\Service\UserService;
 use Core\App;
+use Core\Form\AbstractForm;
+use Core\Http\Request\RequestInterface;
 use Core\Http\Response\JsonResponse;
 use Core\Http\Response\ResponseInterface;
 
@@ -51,7 +55,20 @@ class UserController
         try {
             /** @var UserService $service */
             $service = App::container()->get(UserService::class);
-            $user = new User('dasda', User::GENDER_MALE, 10, 'dasda');
+            /** @var RequestInterface $request */
+            $request = App::container()->get(RequestInterface::class);
+            $form = new UserForm();
+            if (!$form->validate($request)) {
+                return $this->errorJsonResponse($form->getError());
+            }
+
+            $user = new User(
+                $request->getQueryParam('name'),
+                $request->getQueryParam('gender'),
+                $request->getQueryParam('age'),
+                $request->getQueryParam('address')
+            );
+
             $service->createUser($user);
 
             return $this->successJsonResponse('created');

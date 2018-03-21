@@ -19,4 +19,6 @@ interface RequestInterface
     public function getMethod(): string;
 
     public function getQueryParam($param, $default = null);
+
+    public function getAllQueryParams();
 }
