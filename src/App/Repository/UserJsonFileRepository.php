@@ -3,12 +3,16 @@
 namespace App\Repository;
 
 use App\Entity\User;
+use App\Helper\Hydrator;
+use Core\App;
 
 class UserJsonFileRepository implements UserRepository
 {
     private $filePath;
 
     private $storage;
+
+    private $hydrator;
 
     public function __construct(string $filePath)
     {
@@ -19,38 +23,51 @@ class UserJsonFileRepository implements UserRepository
         }
 
         $this->filePath = $filePath;
+        $this->hydrator = App::container()->get(Hydrator::class);
     }
 
-    public function getAll()
+    public function getAll():array
     {
-        return $this->storage;
+        $data = [];
+        if (!empty($this->storage)) {
+            foreach ($this->storage as $item) {
+                $data[] = $this->hydrator->hydrate(User::class, $item);
+            }
+        }
+
+        return $data;
     }
 
     public function save(User $user)
     {
-        $this->storage[$user->getId()] = $user->toArray();
+        $this->storage[$user->getId()] = User::toArray($user);
 
         $this->updateStorage();
     }
 
-    public function remove()
+    public function remove(User $user)
     {
-        // TODO: Implement remove() method.
+        unset($this->storage[$user->getId()]);
+        $this->updateStorage();
     }
 
     public function create(User $user)
     {
         $id = $this->nextId();
-        $userData = $user->toArray();
+        $userData = User::toArray($user);
         $userData['id'] = $id;
         $this->storage[$id] = $userData;
 
         $this->updateStorage();
     }
 
-    public function get()
+    public function get($id): User
     {
-        // TODO: Implement get() method.
+        if (!isset($this->storage[$id])) {
+            throw new \DomainException('User entity not found');
+        }
+
+        return $this->hydrator->hydrate(User::class, $this->storage[$id]);
     }
 
     private function nextId()

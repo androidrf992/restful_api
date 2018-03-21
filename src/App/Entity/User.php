@@ -116,14 +116,14 @@ class User
         return $this->id;
     }
 
-    public function toArray(): array
+    public static function toArray(User $user): array
     {
         return [
-            'id' => $this->getId(),
-            'name' => $this->getName(),
-            'gender' => $this->getGender(),
-            'age' => $this->getAge(),
-            'address' => $this->getAddress(),
+            'id' => $user->getId(),
+            'name' => $user->getName(),
+            'gender' => $user->getGender(),
+            'age' => $user->getAge(),
+            'address' => $user->getAddress(),
         ];
     }
 }

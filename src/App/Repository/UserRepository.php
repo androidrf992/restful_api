@@ -6,13 +6,13 @@ use App\Entity\User;
 
 interface UserRepository
 {
-    public function getAll();
+    public function getAll(): array;
 
     public function save(User $user);
 
-    public function remove();
+    public function remove(User $user);
 
     public function create(User $user);
 
-    public function get();
+    public function get($id): User;
 }

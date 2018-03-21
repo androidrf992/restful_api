@@ -21,9 +21,18 @@ class UserController
      */
     public function listAction(): ResponseInterface
     {
+        $jsonRecords = [];
         /** @var UserService $service */
         $service = App::container()->get(UserService::class);
-        return $this->successJsonResponse($service->getAllUsers());
+        $userCollection = $service->getAllUsers();
+        if (!empty($userCollection)) {
+            /** @var  $item */
+            foreach ($userCollection as $item) {
+                $jsonRecords[] = User::toArray($item);
+            }
+        }
+
+        return $this->successJsonResponse($jsonRecords);
     }
 
     public function getAction($userId): ResponseInterface

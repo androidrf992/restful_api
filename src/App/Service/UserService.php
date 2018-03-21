@@ -19,8 +19,18 @@ class UserService
         return $this->repository->getAll();
     }
 
+    public function getUser($id)
+    {
+        $this->repository->get($id);
+    }
+
     public function createUser(User $user)
     {
         $this->repository->create($user);
+    }
+
+    public function removeUser(User $user)
+    {
+        $this->repository->remove($user);
     }
 }
