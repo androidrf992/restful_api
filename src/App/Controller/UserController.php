@@ -6,7 +6,6 @@ use App\Entity\User;
 use App\Helper\JsonResponseTrait;
 use App\Service\UserService;
 use Core\App;
-use Core\Container\ServiceNotFoundException;
 use Core\Http\Response\JsonResponse;
 use Core\Http\Response\ResponseInterface;
 
