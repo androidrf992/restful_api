@@ -1,11 +1,13 @@
 <?php
 
+use App\Component\AuthComponent;
 use App\Helper\Hydrator;
 use App\Repository\UserJsonFileRepository;
 use App\Repository\UserRepository;
 use App\Service\UserService;
 use Core\ActionRunner\ActionRunner;
 use Core\Container\AppContainer;
+use Core\Http\Request\RequestInterface;
 use Core\Http\Response\JsonResponse;
 use Core\Http\Response\ResponseCode;
 use Core\Pipeline\Pipeline;
@@ -53,6 +55,10 @@ $container->set(UserRepository::class, function ($c) {
 
 $container->set(Hydrator::class, function ($c) {
     return new Hydrator();
+});
+
+$container->set(AuthComponent::class, function ($c) {
+    return new AuthComponent($c->get(RequestInterface::class));
 });
 
 return $container;

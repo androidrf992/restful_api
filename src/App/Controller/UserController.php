@@ -8,7 +8,6 @@ use App\Helper\JsonResponseTrait;
 use App\Service\UserService;
 use Core\App;
 use Core\Http\Request\RequestInterface;
-use Core\Http\Response\JsonResponse;
 use Core\Http\Response\ResponseInterface;
 
 class UserController

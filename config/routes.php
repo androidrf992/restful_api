@@ -32,4 +32,13 @@ $collection->group(function (RouteCollection $collection) {
     return $collection;
 })->withPrefix('/api')->withMiddlewares([AuthMiddleware::class]);
 
+$collection->post('/login', [
+    'controller' => \App\Controller\AuthController::class,
+    'action' => 'loginAction'
+]);
+$collection->post('/logout', [
+    'controller' => \App\Controller\AuthController::class,
+    'action' => 'logoutAction'
+]);
+
 return $collection;

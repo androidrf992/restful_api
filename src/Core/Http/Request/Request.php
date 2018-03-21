@@ -76,6 +76,11 @@ class Request implements RequestInterface
         }
     }
 
+    public function getSession(): Session
+    {
+        return $this->session;
+    }
+
     private function sanitizeParams($params)
     {
         $sanitizedParams = [];

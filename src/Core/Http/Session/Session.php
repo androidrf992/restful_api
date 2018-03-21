@@ -4,8 +4,6 @@ namespace Core\Http\Session;
 
 class Session
 {
-    private $params;
-
     private static $instance;
 
     private static $isInit = false;
@@ -13,7 +11,6 @@ class Session
     private function __construct()
     {
         session_start();
-        $this->params = $_SESSION;
     }
 
     public static function getInstance()
@@ -24,5 +21,25 @@ class Session
         }
 
         return self::$instance;
+    }
+
+    public function has($name)
+    {
+        return isset($_SESSION[$name]);
+    }
+
+    public function get($name)
+    {
+        return $_SESSION[$name] ?? null;
+    }
+
+    public function set($name, $value)
+    {
+        $_SESSION[$name] = $value;
+    }
+
+    public function remove($name)
+    {
+        unset($_SESSION[$name]);
     }
 }

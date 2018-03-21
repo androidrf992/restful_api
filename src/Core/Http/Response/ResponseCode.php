@@ -6,6 +6,8 @@ class ResponseCode
 {
     const OK = 200;
 
+    const UNAUTHORIZED = 401;
+
     const NOT_FOUND = 404;
 
     const METHOD_NOT_ALLOWED = 405;

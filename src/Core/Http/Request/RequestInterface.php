@@ -2,6 +2,8 @@
 
 namespace Core\Http\Request;
 
+use Core\Http\Session\Session;
+
 interface RequestInterface
 {
     const METHOD_GET = 'GET';
@@ -17,6 +19,8 @@ interface RequestInterface
     public function getPath(): string;
 
     public function getMethod(): string;
+
+    public function getSession(): Session;
 
     public function getQueryParam($param, $default = null);
 
