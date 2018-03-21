@@ -4,6 +4,10 @@ namespace Core\Route;
 
 use Core\Http\Request\RequestInterface;
 
+/**
+ * General tmethod for working with route in application
+ * @package Core\Route
+ */
 interface RouteInterface
 {
     public function match(RequestInterface $request): bool;

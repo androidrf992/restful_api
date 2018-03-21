@@ -6,6 +6,10 @@ use Core\Http\Request\RequestInterface;
 use Core\Route\Exceptions\RoutePatternNotFoundParamException;
 use Core\Route\Exceptions\RoutePatternNotValidException;
 
+/**
+ * Class Route implementation of RouteInterface
+ * @package Core\Route
+ */
 class Route implements RouteInterface
 {
     protected $pattern;
@@ -29,6 +33,12 @@ class Route implements RouteInterface
         $this->pattern = $this->compilePattern($pattern);
     }
 
+    /**
+     * Match route pattern with request path
+     *
+     * @param RequestInterface $request
+     * @return bool
+     */
     public function match(RequestInterface $request): bool
     {
         if ($this->method !== $request ->getMethod()) {
@@ -46,11 +56,21 @@ class Route implements RouteInterface
         return true;
     }
 
+    /**
+     * Set prefix for route pattern
+     *
+     * @param $prefix
+     */
     public function setPrefix($prefix)
     {
         $this->prefix = str_replace('/', '\/', $prefix);
     }
 
+    /**
+     * add middleware list for route
+     *
+     * @param array $middlewares
+     */
     public function setMiddleware(array $middlewares)
     {
         $this->middlewares = $middlewares;
@@ -66,11 +86,21 @@ class Route implements RouteInterface
         return $this->middlewares;
     }
 
+    /**
+     * Return simple DTO object for future simple use
+     * @return RouteActionInterface
+     */
     public function getAction(): RouteActionInterface
     {
         return new RouteAction($this->action, $this->actionArguments);
     }
 
+    /**
+     * Format pattern with arguments parsing
+     *
+     * @param $pattern
+     * @return mixed
+     */
     private function compilePattern($pattern)
     {
         if (\is_string($pattern)) {

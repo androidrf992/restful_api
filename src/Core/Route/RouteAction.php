@@ -2,6 +2,10 @@
 
 namespace Core\Route;
 
+/**
+ * DTO object for Route action
+ * @package Core\Route
+ */
 class RouteAction implements RouteActionInterface
 {
     private $action;

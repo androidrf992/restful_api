@@ -4,6 +4,10 @@ namespace Core\Sender;
 
 use Core\Http\Response\ResponseInterface;
 
+/**
+ * Implementation for send standard http response
+ * @package Core\Sender
+ */
 class SimpleHtmlSender implements SenderInterface
 {
     public function send(ResponseInterface $response)

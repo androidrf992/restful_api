@@ -2,6 +2,11 @@
 
 namespace Core\Http\Session;
 
+/**
+ * Class for works with session as object
+ *
+ * @package Core\Http\Session
+ */
 class Session
 {
     private static $instance;

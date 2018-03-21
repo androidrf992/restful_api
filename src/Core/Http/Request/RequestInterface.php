@@ -4,6 +4,10 @@ namespace Core\Http\Request;
 
 use Core\Http\Session\Session;
 
+/**
+ * General request interface for requests implementations
+ * @package Core\Http\Request
+ */
 interface RequestInterface
 {
     const METHOD_GET = 'GET';

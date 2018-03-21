@@ -4,6 +4,10 @@ namespace Core\Route;
 
 use Core\Http\Request\RequestInterface;
 
+/**
+ * Collection for all application routes
+ * @package Core\Route
+ */
 class RouteCollection implements RouteCollectionInterface
 {
     private $routeList = [];
@@ -28,6 +32,12 @@ class RouteCollection implements RouteCollectionInterface
         return $this->addRoute(RequestInterface::METHOD_DELETE, $pattern, $action, $patternArgs);
     }
 
+    /**
+     * Action for group few routes with same prefix or middlewares
+     *
+     * @param \Closure $closure
+     * @return RouteCollectionGroup
+     */
     public function group(\Closure $closure): RouteCollectionGroup
     {
         $routeCollectionGroup = new RouteCollectionGroup($closure);
@@ -36,6 +46,11 @@ class RouteCollection implements RouteCollectionInterface
         return $routeCollectionGroup;
     }
 
+    /**
+     * Get all routes
+     *
+     * @return array
+     */
     public function getRoutes(): array
     {
         $routes = [];

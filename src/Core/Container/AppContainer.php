@@ -2,15 +2,32 @@
 
 namespace Core\Container;
 
+/**
+ * Simple dependency container
+ *
+ * @package Core\Container
+ */
 class AppContainer
 {
     private $storage = [];
 
+    /**
+     * Set dependency
+     *
+     * @param string $name
+     * @param $value
+     */
     public function set(string $name, $value)
     {
         $this->storage[$name] = $value;
     }
 
+    /**
+     * Get dependency
+     *
+     * @param string $name
+     * @return mixed
+     */
     public function get(string $name)
     {
         if (!isset($this->storage[$name])) {

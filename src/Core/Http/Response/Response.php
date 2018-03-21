@@ -2,6 +2,11 @@
 
 namespace Core\Http\Response;
 
+/**
+ * Simple html response
+ *
+ * @package Core\Http\Response
+ */
 class Response implements ResponseInterface
 {
     protected $body;

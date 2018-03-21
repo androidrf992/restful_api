@@ -11,6 +11,10 @@ use Core\Route\RouteHandler;
 use Core\Sender\SenderInterface;
 use Core\ActionRunner\ActionRunner;
 
+/**
+ * Main application
+ * @package Core
+ */
 class App
 {
     private $request;
@@ -27,6 +31,12 @@ class App
         self::$container = $container;
     }
 
+    /**
+     * Boot all app & execute request
+     *
+     * @param SenderInterface $sender
+     * @param ActionRunner $runner
+     */
     public function run(SenderInterface $sender, ActionRunner $runner)
     {
         try {
@@ -43,6 +53,11 @@ class App
         $sender->send($response);
     }
 
+    /**
+     * Get container for simple skipping frtom few layers
+     *
+     * @return AppContainer
+     */
     public static function container(): AppContainer
     {
         return self::$container;

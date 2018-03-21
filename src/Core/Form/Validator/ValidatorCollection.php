@@ -2,6 +2,10 @@
 
 namespace Core\Form\Validator;
 
+/**
+ * Class ValidatorCollection used for collect all validation from from for next validate
+ * @package Core\Form\Validator
+ */
 class ValidatorCollection implements \Countable
 {
     private $validatorList = [];

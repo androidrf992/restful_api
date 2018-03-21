@@ -5,6 +5,10 @@ namespace Core\Route;
 use Core\Http\Request\RequestInterface;
 use Core\Route\Exceptions\RouteNotMatchedException;
 
+/**
+ * Class for handle request with route
+ * @package Core\Route
+ */
 class RouteHandler
 {
     private $routeCollection;
@@ -14,6 +18,14 @@ class RouteHandler
         $this->routeCollection = $routeCollection;
     }
 
+    /**
+     * Get route which match with request
+     *
+     * @throws RouteNotMatchedException
+     * @param RequestInterface $request
+     * 
+     * @return RouteInterface
+     */
     public function handle(RequestInterface $request): RouteInterface
     {
         /** @var Route $route */

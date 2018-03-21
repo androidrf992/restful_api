@@ -4,6 +4,10 @@ namespace Core\Http\Request;
 
 use Core\Http\Session\Session;
 
+/**
+ * Class Request simple implementation of RequestInterface
+ * @package Core\Http\Request
+ */
 class Request implements RequestInterface
 {
     private $getParams;
@@ -29,16 +33,30 @@ class Request implements RequestInterface
         $this->cookieParams = $cookie;
     }
 
+    /**
+     * Easy Request Builder from server params
+     * @return Request
+     */
     public static function initByGlobals(): self
     {
         return new Request($_GET, $_POST, $_SERVER, Session::getInstance(), $_COOKIE);
     }
 
+    /**
+     * Get request uri
+     *
+     * @return string
+     */
     public function getUri(): string
     {
         return $this->serverParams['REQUEST_URI'] ?? null;
     }
 
+    /**
+     * Get route path
+     *
+     * @return string
+     */
     public function getPath(): string
     {
         $rawUri = $this->getUri();
@@ -49,11 +67,23 @@ class Request implements RequestInterface
             : $rawUri;
     }
 
+    /**
+     * Get Request method
+     *
+     * @return string
+     */
     public function getMethod(): string
     {
         return $this->serverParams['REQUEST_METHOD'] ?? null;
     }
 
+    /**
+     * Get request param by name
+     *
+     * @param $param
+     * @param null $default
+     * @return mixed|null
+     */
     public function getQueryParam($param, $default = null)
     {
         if ($this->getMethod() === RequestInterface::METHOD_GET) {
@@ -65,6 +95,11 @@ class Request implements RequestInterface
         }
     }
 
+    /**
+     * Get all request params
+     *
+     * @return array
+     */
     public function getAllQueryParams()
     {
         if ($this->getMethod() === RequestInterface::METHOD_GET) {
@@ -81,6 +116,12 @@ class Request implements RequestInterface
         return $this->session;
     }
 
+    /**
+     * Sanitaze request params
+     *
+     * @param $params
+     * @return array
+     */
     private function sanitizeParams($params)
     {
         $sanitizedParams = [];

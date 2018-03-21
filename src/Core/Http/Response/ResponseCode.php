@@ -2,6 +2,10 @@
 
 namespace Core\Http\Response;
 
+/**
+ * Response codes enumerate
+ * @package Core\Http\Response
+ */
 class ResponseCode
 {
     const OK = 200;

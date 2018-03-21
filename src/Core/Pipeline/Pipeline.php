@@ -14,6 +14,12 @@ class Pipeline implements PipelineInterface
         $this->pipesList[] = $middleware;
     }
 
+    /**
+     * Recursive running all middlewares
+     *
+     * @param \Closure $action
+     * @return ResponseInterface
+     */
     public function process(\Closure $action): ResponseInterface
     {
         $current = array_shift($this->pipesList);

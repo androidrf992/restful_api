@@ -2,6 +2,10 @@
 
 namespace Core\Route;
 
+/**
+ * Class for modifying collection routes
+ * @package Core\Route
+ */
 class RouteCollectionGroup
 {
     /** @var RouteCollection */
@@ -17,6 +21,12 @@ class RouteCollectionGroup
         $this->routeCollection = $closure($routeCollection);
     }
 
+    /**
+     * Set prefix which use all routes in group
+     *
+     * @param string $prefix
+     * @return RouteCollectionGroup
+     */
     public function withPrefix(string $prefix): self
     {
         $this->prefix = $prefix;
@@ -24,6 +34,12 @@ class RouteCollectionGroup
         return $this;
     }
 
+    /**
+     * * Set middlewares which use all routes in group
+     *
+     * @param array $middlewares
+     * @return RouteCollectionGroup
+     */
     public function withMiddlewares(array $middlewares): self
     {
         $this->middlewares = $middlewares;
@@ -31,6 +47,11 @@ class RouteCollectionGroup
         return $this;
     }
 
+    /**
+     * Return modified routes
+     *
+     * @return array
+     */
     public function getRoutes():array
     {
         $routes = $this->routeCollection->getRoutes();

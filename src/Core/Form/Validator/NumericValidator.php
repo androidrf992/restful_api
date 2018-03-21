@@ -2,6 +2,10 @@
 
 namespace Core\Form\Validator;
 
+/**
+ * Class NumericValidator implement number validate
+ * @package Core\Form\Validator
+ */
 class NumericValidator implements ValidatorInterface
 {
     private $range;

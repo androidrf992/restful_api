@@ -10,8 +10,25 @@ use Core\Http\Response\ResponseInterface;
 use Core\Pipeline\PipelineInterface;
 use Core\Route\RouteInterface;
 
+/**
+ * Class ActionRunner use for getting response by matched route
+ * @package Core\ActionRunner
+ */
 class ActionRunner
 {
+    /**
+     * Return appication response by given route & pipeline
+     *
+     * @param RouteInterface $route
+     * @param PipelineInterface $pipeline
+     *
+     * @throws ActionClassOrMethodNotExistException
+     * @throws ActionMethodNotPublicException
+     * @throws NotValidActionResultException
+     * @throws NotMatchedRouteActionException
+     *
+     * @return ResponseInterface
+     */
     public function execute(RouteInterface $route, PipelineInterface $pipeline): ResponseInterface
     {
         $action = $route->getAction()->getAction();
