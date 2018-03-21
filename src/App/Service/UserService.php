@@ -19,9 +19,9 @@ class UserService
         return $this->repository->getAll();
     }
 
-    public function getUser($id)
+    public function getUser($id): User
     {
-        $this->repository->get($id);
+        return $this->repository->get($id);
     }
 
     public function createUser(User $user)

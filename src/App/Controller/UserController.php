@@ -14,30 +14,37 @@ class UserController
 {
     use JsonResponseTrait;
 
-    /**
-     * @throws ServiceNotFoundException
-     *
-     * @return ResponseInterface
-     */
     public function listAction(): ResponseInterface
     {
-        $jsonRecords = [];
-        /** @var UserService $service */
-        $service = App::container()->get(UserService::class);
-        $userCollection = $service->getAllUsers();
-        if (!empty($userCollection)) {
-            /** @var  $item */
-            foreach ($userCollection as $item) {
-                $jsonRecords[] = User::toArray($item);
+        try {
+            $jsonRecords = [];
+            /** @var UserService $service */
+            $service = App::container()->get(UserService::class);
+            $userCollection = $service->getAllUsers();
+            if (!empty($userCollection)) {
+                /** @var  $item */
+                foreach ($userCollection as $item) {
+                    $jsonRecords[] = User::toArray($item);
+                }
             }
-        }
 
-        return $this->successJsonResponse($jsonRecords);
+            return $this->successJsonResponse($jsonRecords);
+        } catch (\Exception $e) {
+            return $this->errorJsonResponse($e->getMessage());
+        }
     }
 
     public function getAction($userId): ResponseInterface
     {
-        return new JsonResponse(['get', $userId]);
+        try {
+            /** @var UserService $service */
+            $service = App::container()->get(UserService::class);
+            $userEntity = $service->getUser($userId);
+
+            return $this->successJsonResponse(User::toArray($userEntity));
+        } catch (\Exception $e) {
+            return $this->errorJsonResponse($e->getMessage());
+        }
     }
 
     public function createAction(): ResponseInterface
@@ -47,6 +54,7 @@ class UserController
             $service = App::container()->get(UserService::class);
             $user = new User('dasda', User::GENDER_MALE, 10, 'dasda');
             $service->createUser($user);
+
             return $this->successJsonResponse('created');
         } catch (\Exception $e) {
             return $this->errorJsonResponse($e->getMessage());
@@ -60,6 +68,15 @@ class UserController
 
     public function deleteAction($userId): ResponseInterface
     {
-        return new JsonResponse(['deleteAction']);
+        try {
+            /** @var UserService $service */
+            $service = App::container()->get(UserService::class);
+            $user = $service->getUser($userId);
+            $service->removeUser($user);
+
+            return $this->successJsonResponse('deleted');
+        } catch (\Exception $e) {
+            return $this->errorJsonResponse($e->getMessage());
+        }
     }
 }
