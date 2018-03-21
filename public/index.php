@@ -11,6 +11,8 @@ define('BASE_PATH', __DIR__ . '/../');
 
 $routeCollection = require __DIR__ . '/../config/routes.php';
 $container = require __DIR__ . '/../config/container.php';
+$config = require __DIR__ . '/../config/config.php';
+$container->set('config', $config);
 
 $request = Request::initByGlobals();
 $routeHandler = new RouteHandler($routeCollection);

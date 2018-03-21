@@ -8,18 +8,20 @@ class AuthComponent
 {
     private $request;
 
-    private $userName = 'admin';
+    private $login = 'admin';
 
-    private $userPassword = 'qwerty';
+    private $password = 'qwerty';
 
-    public function __construct(RequestInterface $request)
+    public function __construct(RequestInterface $request, $login, $password)
     {
         $this->request = $request;
+        $this->login = $login;
+        $this->password = $password;
     }
 
     public function login($login, $password): bool
     {
-        if ($login === $this->userName && $password === $this->userPassword) {
+        if ($login === $this->login && $password === $this->password) {
             $this->request->getSession()->set('auth', true);
             return true;
         }

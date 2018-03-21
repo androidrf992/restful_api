@@ -50,7 +50,7 @@ $container->set(UserService::class, function ($c) {
 });
 
 $container->set(UserRepository::class, function ($c) {
-    return new UserJsonFileRepository(BASE_PATH . '/data/user.json');
+    return new UserJsonFileRepository($c->get('config')['db.storage_path']);
 });
 
 $container->set(Hydrator::class, function ($c) {
@@ -58,7 +58,11 @@ $container->set(Hydrator::class, function ($c) {
 });
 
 $container->set(AuthComponent::class, function ($c) {
-    return new AuthComponent($c->get(RequestInterface::class));
+    return new AuthComponent(
+        $c->get(RequestInterface::class),
+        $c->get('config')['auth.login'],
+        $c->get('config')['auth.password']
+    );
 });
 
 return $container;
